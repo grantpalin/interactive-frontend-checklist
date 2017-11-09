@@ -1,0 +1,20 @@
+{
+  "name": "frontend-checklist",
+  "description": "An interactive version of the Front-End Checklist at https://github.com/thedaviddias/Front-End-Checklist",
+  "author": "Grant Palin (https://grantpalin.com)",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1"
+  },
+  "devDependencies": {
+    "react-scripts": "1.0.17"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
