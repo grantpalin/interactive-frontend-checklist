@@ -1,0 +1,23 @@
+.priority {
+  color: white;
+  cursor: default;
+  box-sizing: border-box;
+  float: left;
+  font-size: 1.25em;
+  height: 2rem;
+  padding: 0.2em;
+  text-align: center;
+  width: 2rem;
+}
+
+.priority.high {
+  background-color: red;
+}
+
+.priority.med {
+  background-color: orange;
+}
+
+.priority.low {
+  background-color: green;
+}

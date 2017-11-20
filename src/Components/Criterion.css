@@ -1,0 +1,21 @@
+.criterion {
+  padding: 0.35em;
+}
+.criterion + .criterion {
+  border-top: 1px solid #bbb;
+}
+.criterion:hover {
+  background-color: #eee;
+}
+.criterion label {
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  padding: 0.1em;
+}
+.criterion label:hover {
+  background-color: #bbb;
+}
+.criterion-overview {
+  margin: 0 0 0 3rem;
+}
