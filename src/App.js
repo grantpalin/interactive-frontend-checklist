@@ -138,6 +138,9 @@ class App extends Component {
             </CriteriaGroup>
           </Criteria>
         </main>
+        <footer>
+          <p>This is an <a href="https://github.com/grantpalin/interactive-frontend-checklist">open-source project</a> by <a href="https://grantpalin.com/">Grant Palin</a>, inspired by the <a href="https://github.com/thedaviddias/Front-End-Checklist">Front-End Checklist</a>.</p>
+        </footer>
       </div>
     );
   }

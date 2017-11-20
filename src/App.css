@@ -1,5 +1,4 @@
-.app {
-}
+.app { }
 
 .app-logo {
   animation: app-logo-spin infinite 20s linear;
@@ -30,3 +29,12 @@
 main {
   margin: 0 1%;
 }
+
+footer {
+  background-color: #222;
+  color: white;
+  margin-top: 2em;
+  padding: 1em 1%;
+}
+
+footer a { color: #999; }
