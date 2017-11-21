@@ -38,3 +38,46 @@ footer {
 }
 
 footer a { color: #999; }
+
+.checks-remaining {
+  border-collapse: collapse;
+}
+
+.checks-remaining caption {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.checks-remaining th,
+.checks-remaining td { padding: 5px; }
+
+.checks-remaining thead {
+  background-color: #222;
+  color: white;
+  text-align: right;
+}
+
+.checks-remaining tbody { text-align: right; }
+
+.checks-remaining td.high {
+  background-color: red;
+  color: white;
+}
+.checks-remaining td.medium {
+  background-color: orange;
+  color: white;
+}
+.checks-remaining td.low {
+  background-color: green;
+  color: white;
+}
+.checks-remaining td.total {
+  background-color: #bbb;
+  color: black;
+}
+
+.checks-remaining tfoot {
+  background-color: #222;
+  color: white;
+  text-align: right;
+}

@@ -25,6 +25,11 @@ class CriteriaGroup extends Component {
     };
   }
 
+  componentDidMount() {
+    // send new or updated data upstream to the App component for summary display
+    this.props.updateMasterTallies(this.props.title, this.state.low, this.state.med, this.state.high);
+  }
+
   render() {
     return (
       <div className="criteria-group">
@@ -44,6 +49,7 @@ class CriteriaGroup extends Component {
 CriteriaGroup.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.arrayOf(Criterion).isRequired,
+  updateMasterTallies: PropTypes.func.isRequired
 };
 
 export default CriteriaGroup;

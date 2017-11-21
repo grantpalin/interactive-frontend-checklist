@@ -6,7 +6,50 @@ import Criterion from "./Components/Criterion";
 import './App.css';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      groupTallies: []
+    };
+
+    this.updateGroupTallies = this.updateGroupTallies.bind(this);
+  }
+
+  // used to allow lower-level components - namely, CriteriaGroup instances - to send data updates back upstream for display
+  updateGroupTallies(id, low, medium, high) {
+    let groupTallies = this.state.groupTallies;
+    groupTallies.push({id: id, low: low, med: medium, high: high});
+
+    this.setState({
+      groupTallies: groupTallies
+    });
+  }
+
   render() {
+    // prepare the row data for tabulation
+    const rowData = this.state.groupTallies.map(tally => {
+      return {id: tally.id, low: tally.low, med: tally.med, high: tally.high, total: tally.low + tally.med + tally.high};
+    });
+
+    // create totals data based on the row data
+    const footerData = rowData.reduce((accumulator, current) => {
+      return {low: current.low + accumulator.low, med: current.med + accumulator.med, high: current.high + accumulator.high, total: current.total + accumulator.total}
+    }, {low: 0, med: 0, high: 0, total: 0});
+
+    // generate the table row markup
+    const rows = rowData.map((tally, index) => {
+      return (
+        <tr key={index}>
+          <th scope="row">{tally.id}</th>
+          <td className="high">{tally.high}</td>
+          <td className="medium">{tally.med}</td>
+          <td className="low">{tally.low}</td>
+          <td className="total">{tally.total}</td>
+        </tr>
+      );
+    });
+
     return (
       <div className="app">
         <header className="app-header">
@@ -14,8 +57,33 @@ class App extends Component {
           <h1 className="app-title">Interactive Front-End Checklist</h1>
         </header>
         <main>
+          <table className="checks-remaining">
+            <caption>Checks Remaining</caption>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th className="high">High</th>
+                <th className="medium">Medium</th>
+                <th className="low">Low</th>
+                <th className="total">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+            {rows}
+            </tbody>
+            <tfoot>
+              <tr>
+                <th scope="row">Totals</th>
+                <td>{footerData.high}</td>
+                <td>{footerData.med}</td>
+                <td>{footerData.low}</td>
+                <td>{footerData.total}</td>
+              </tr>
+            </tfoot>
+          </table>
+
           <Criteria>
-            <CriteriaGroup title="Head">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="Head">
               <Criterion priority="high" label="Doctype"              text="The Doctype is HTML5 and is at the top of all your HTML pages." />
               <Criterion priority="high" label="Charset"              text="The charset (UTF-8) is declared correctly." />
               <Criterion priority="med"  label="X-UA-Compatible"      text="The X-UA-Compatible meta tag is present." />
@@ -36,7 +104,7 @@ class App extends Component {
               <Criterion priority="low"  label="Facebook Open Graph"  text="All Facebook Open Graph (OG) are tested and no one is missing or with a false information. Images need to be at least 600 x 315 pixels, 1200 x 630 pixels recommended." />
               <Criterion priority="low"  label="Twitter Card"         text="" />
             </CriteriaGroup>
-            <CriteriaGroup title="HTML">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="HTML">
               <Criterion priority="high" label="HTML5 semantic elements" text="HTML5 Semantic Elements are used appropriately (header, section, footer, main...)." />
               <Criterion priority="high" label="Error pages"             text="Error 404 page and 5xx exist. Remember that the 5xx error pages need to have their CSS integrated (no external call on the current server)." />
               <Criterion priority="med"  label="Noopener"                text='In case you are using external links with target="_blank", your link should have a rel="noopener" attribute to prevent tab nabbing. If you need to support older versions of Firefox, use rel="noopener noreferrer".' />
@@ -46,12 +114,12 @@ class App extends Component {
               <Criterion priority="high" label="Link checker"            text="There are no broken links in my page, verify that you don't have any 404 error." />
               <Criterion priority="med"  label="Adblockers test"         text="Your website shows your content correctly with adblockers enabled (You can provide a message encouraging people to disable their adblocker)." />
             </CriteriaGroup>
-            <CriteriaGroup title="Webfonts">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="Webfonts">
               <Criterion priority="high" label="Webfont format" text="WOFF, WOFF2 and TTF are supported by all modern browsers." />
               <Criterion priority="high" label="Webfont size"   text="Webfont sizes don't exceed 2 MB (all variants included)." />
               <Criterion priority="low"  label="Webfont loader" text="Control loading behavior with a webfont loader." />
             </CriteriaGroup>
-            <CriteriaGroup title="CSS">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="CSS">
               <Criterion priority="high" label="Responsive Web Design"  text="The website is using responsive web design." />
               <Criterion priority="med"  label="CSS print"              text="A print stylesheet is provided and is correct on each page." />
               <Criterion priority="low"  label="Preprocessors"          text="Your page is using a CSS preprocessor (Sass is preferred)." />
@@ -73,7 +141,7 @@ class App extends Component {
               <Criterion priority="high" label="Pixel perfect"          text="Pages are close to pixel perfect. Depending on the quality of the creatives, you may not be 100% accurate, but your page needs to be close to your template." />
               <Criterion priority="high" label="Reading direction"      text="All pages need to be tested for LTR and RTL languages if they need to be supported." />
             </CriteriaGroup>
-            <CriteriaGroup title="Images">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="Images">
               <Criterion priority="high" label="Optimization"     text="All images are optimized to be rendered in the browser. WebP format could be used for critical pages (like Homepage)." />
               <Criterion priority="med"  label="Picture/srcset"   text="You use picture/srcset to provide the most appropriate image for the current viewport of the user." />
               <Criterion priority="low"  label="Retina"           text="You provide layout images 2x or 3x, support retina display." />
@@ -82,7 +150,7 @@ class App extends Component {
               <Criterion priority="high" label="Alternative text" text="All <img> have an alternative text which describe the image visually." />
               <Criterion priority="med"  label="Lazy loading"     text=" Images are lazyloaded (A noscript fallback is always provided)." />
             </CriteriaGroup>
-            <CriteriaGroup title="JavaScript">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="JavaScript">
               <Criterion priority="high" label="No inline JavaScript" text="You don't have any JavaScript code inline (mixed with your HTML code)." />
               <Criterion priority="high" label="Concatenation"        text="JavaScript files are concatenated." />
               <Criterion priority="high" label="JavaScript files are minified (you can add the .min suffix)." text="JavaScript files are minified (you can add the .min suffix)." />
@@ -91,7 +159,7 @@ class App extends Component {
               <Criterion priority="low"  label="Modernizr"            text="If you need to target some specific features you can use a custom Modernizr to add classes in your <html> tag." />
               <Criterion priority="high" label="ESLint"               text="No errors are flagged by ESLint (based on your configuration or standards rules)." />
             </CriteriaGroup>
-            <CriteriaGroup title="Security">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="Security">
               <Criterion priority="med"  label="HTTPS"                                 text="HTTPS is used on every pages and for all external content (plugins, images...)." />
               <Criterion priority="med"  label="HTTP Strict Transport Security (HSTS)" text="The HTTP header is set to 'Strict-Transport-Security'." />
               <Criterion priority="high" label="Cross Site Request Forgery (CSRF)"     text="You ensure that requests made to your server-side are legitimate and originate from your website / app to prevent CSRF attacks." />
@@ -100,7 +168,7 @@ class App extends Component {
               <Criterion priority="med"  label="X-Frame-Options (XFO)"                 text="Protects your visitors against clickjacking attacks." />
               <Criterion priority="med"  label="Content security policy"               text="Defines how content is loaded on your site and from where it is permitted to be loaded. Can also be used to protect against clickjacking attacks." />
             </CriteriaGroup>
-            <CriteriaGroup title="Performance">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="Performance">
               <Criterion priority="high" label="Page weight"            text="The weight of each page is between 0 and 500 KB." />
               <Criterion priority="med"  label="Minification"           text="HTML is minified." />
               <Criterion priority="med"  label="Lazy loading"           text="Images, scripts and CSS need to be lazy loaded to improve the response time of the current page (See details in their respective sections)." />
@@ -112,7 +180,7 @@ class App extends Component {
               <Criterion priority="low"  label="Preloading"             text="Resources needed in the current page (e.g. scripts placed at the end of <body>) in advance using preload." />
               <Criterion priority="high" label="Google PageSpeed"       text="All your pages were tested (not only the homepage) and have a score of at least 90/100." />
             </CriteriaGroup>
-            <CriteriaGroup title="Accessibility">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="Accessibility">
               <Criterion priority="med"  label="Progressive enhancement"             text="Major functionality like main navigation and search should work without JavaScript enabled." />
               <Criterion priority="med"  label="Color contrast"                      text="Color contrast should at least pass WCAG AA (AAA for mobile)." />
               <Criterion priority="high" label="H1"                                  text="All pages have an H1 which is not the title of the website." />
@@ -127,7 +195,7 @@ class App extends Component {
               <Criterion priority="med"  label="Screen-reader"                       text="All pages were tested in a screen-reader (VoiceOver, ChromeVox, NVDA or Lynx)." />
               <Criterion priority="high" label="Focus style"                         text="If the focus is disabled, it is replaced by visible state in CSS." />
             </CriteriaGroup>
-            <CriteriaGroup title="SEO">
+            <CriteriaGroup updateMasterTallies={this.updateGroupTallies} title="SEO">
               <Criterion priority="high" label="Google Analytics" text="Google Analytics is installed and correctly configured." />
               <Criterion priority="med"  label="Headings"         text="Heading text helps to understand the content in the current page." />
               <Criterion priority="high" label="sitemap.xml"      text="A sitemap.xml exists and was submitted to Google Search Console (previously Google Webmaster Tools)." />
