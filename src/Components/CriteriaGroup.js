@@ -4,7 +4,9 @@ import Criterion from './Criterion';
 import './CriteriaGroup.css';
 
 class CriteriaGroup extends Component {
-  render() {
+  constructor(props) {
+    super(props);
+
     // get an array of child elements (Criterion) for processing
     const children = React.Children.toArray(this.props.children);
 
@@ -15,14 +17,23 @@ class CriteriaGroup extends Component {
       high: children.filter(child => child.props.priority === 'high').length,
     };
 
+    // store the tallies in the local state
+    this.state = {
+      low: levelCounts.low,
+      med: levelCounts.med,
+      high: levelCounts.high
+    };
+  }
+
+  render() {
     return (
       <div className="criteria-group">
         <h2 className="criteria-group-title">{this.props.title}</h2>
         <ul className="priority-counts">
-          {levelCounts.high > 0 ? <li className="priority-count high">High: {levelCounts.high}</li> : null }
-          {levelCounts.med > 0 ? <li className="priority-count medium">Medium: {levelCounts.med}</li> : null }
-          {levelCounts.low > 0 ? <li className="priority-count low">Low: {levelCounts.low}</li> : null }
-          <li className="priority-count total">Total: {levelCounts.high + levelCounts.med + levelCounts.low}</li>
+          {this.state.high > 0 ? <li className="priority-count high">High: {this.state.high}</li> : null }
+          {this.state.med > 0 ? <li className="priority-count medium">Medium: {this.state.med}</li> : null }
+          {this.state.low > 0 ? <li className="priority-count low">Low: {this.state.low}</li> : null }
+          <li className="priority-count total">Total: {this.state.high + this.state.med + this.state.low}</li>
         </ul>
         {this.props.children}
       </div>
