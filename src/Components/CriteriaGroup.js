@@ -7,14 +7,11 @@ class CriteriaGroup extends Component {
   constructor(props) {
     super(props);
 
-    // get an array of child elements (Criterion) for processing
-    const children = React.Children.toArray(this.props.children);
-
     // tally the number of each priority level used in this group
     const levelCounts = {
-      low: children.filter(child => child.props.priority === 'low').length,
-      med: children.filter(child => child.props.priority === 'med').length,
-      high: children.filter(child => child.props.priority === 'high').length,
+      low: this.props.criteria.filter(child => child.level === 'low').length,
+      med: this.props.criteria.filter(child => child.level === 'med').length,
+      high: this.props.criteria.filter(child => child.level === 'high').length,
     };
 
     // store the tallies in the local state
@@ -31,6 +28,12 @@ class CriteriaGroup extends Component {
   }
 
   render() {
+    const criteria = this.props.criteria.map((criterion, index) => {
+      return (
+        <Criterion priority={criterion.level} label={criterion.label} text={criterion.description} key={index} />
+      );
+    });
+
     return (
       <div className="criteria-group">
         <h2 className="criteria-group-title">{this.props.title}</h2>
@@ -40,7 +43,7 @@ class CriteriaGroup extends Component {
           {this.state.low > 0 ? <li className="priority-count low">Low: {this.state.low}</li> : null }
           <li className="priority-count total">Total: {this.state.high + this.state.med + this.state.low}</li>
         </ul>
-        {this.props.children}
+        {criteria}
       </div>
     );
   }
@@ -48,7 +51,7 @@ class CriteriaGroup extends Component {
 
 CriteriaGroup.propTypes = {
   title: PropTypes.string.isRequired,
-  children: PropTypes.arrayOf(Criterion).isRequired,
+  criteria: PropTypes.array.isRequired,
   updateMasterTallies: PropTypes.func.isRequired
 };
 
