@@ -7,24 +7,6 @@ class App extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      groupTallies: []
-    };
-
-    this.updateGroupTallies = this.updateGroupTallies.bind(this);
-  }
-
-  // used to allow lower-level components - namely, CriteriaGroup instances - to send data updates back upstream for display
-  updateGroupTallies(id, low, medium, high) {
-    let groupTallies = this.state.groupTallies;
-    groupTallies.push({id: id, low: low, med: medium, high: high});
-
-    this.setState({
-      groupTallies: groupTallies
-    });
-  }
-
-  render() {
     const data = [
       {
         title: "Head", criteria: [
@@ -169,7 +151,26 @@ class App extends Component {
       },
     ];
 
-    const groups = data.map((group, index) => {
+    this.state = {
+      data,
+      groupTallies: []
+    };
+
+    this.updateGroupTallies = this.updateGroupTallies.bind(this);
+  }
+
+  // used to allow lower-level components - namely, CriteriaGroup instances - to send data updates back upstream for display
+  updateGroupTallies(id, low, medium, high) {
+    let groupTallies = this.state.groupTallies;
+    groupTallies.push({id: id, low: low, med: medium, high: high});
+
+    this.setState({
+      groupTallies: groupTallies
+    });
+  }
+
+  render() {
+    const groups = this.state.data.map((group, index) => {
       return (
         <CriteriaGroup title={group.title} updateMasterTallies={this.updateGroupTallies} criteria={group.criteria} key={index} />
       );
