@@ -22,11 +22,6 @@ class CriteriaGroup extends Component {
     };
   }
 
-  componentDidMount() {
-    // send new or updated data upstream to the App component for summary display
-    this.props.updateMasterTallies(this.props.title, this.state.low, this.state.med, this.state.high);
-  }
-
   render() {
     const criteria = this.props.criteria.map((criterion, index) => {
       return (
@@ -52,7 +47,6 @@ class CriteriaGroup extends Component {
 CriteriaGroup.propTypes = {
   title: PropTypes.string.isRequired,
   criteria: PropTypes.array.isRequired,
-  updateMasterTallies: PropTypes.func.isRequired
 };
 
 export default CriteriaGroup;

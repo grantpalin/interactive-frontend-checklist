@@ -151,28 +151,31 @@ class App extends Component {
       },
     ];
 
+    // calculate the initial number of criteria yet to be satisfied
+    const groupTallies = data.map(group => {
+      const criteria = group.criteria.map(criterion => {
+        return criterion.level;
+      });
+
+      const levelCounts = {
+        low: criteria.filter(level => level === 'low').length,
+        med: criteria.filter(level => level === 'med').length,
+        high: criteria.filter(level => level === 'high').length,
+      };
+
+      return { id: group.title, low: levelCounts.low, med: levelCounts.med, high: levelCounts.high };
+    });
+
     this.state = {
       data,
-      groupTallies: []
+      groupTallies
     };
-
-    this.updateGroupTallies = this.updateGroupTallies.bind(this);
-  }
-
-  // used to allow lower-level components - namely, CriteriaGroup instances - to send data updates back upstream for display
-  updateGroupTallies(id, low, medium, high) {
-    let groupTallies = this.state.groupTallies;
-    groupTallies.push({id: id, low: low, med: medium, high: high});
-
-    this.setState({
-      groupTallies: groupTallies
-    });
   }
 
   render() {
     const groups = this.state.data.map((group, index) => {
       return (
-        <CriteriaGroup title={group.title} updateMasterTallies={this.updateGroupTallies} criteria={group.criteria} key={index} />
+        <CriteriaGroup title={group.title} criteria={group.criteria} key={index} />
       );
     });
 
