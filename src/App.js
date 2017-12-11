@@ -166,16 +166,34 @@ class App extends Component {
       return { id: group.title, low: levelCounts.low, med: levelCounts.med, high: levelCounts.high };
     });
 
+    // keep both the tallies and the source data in local state
     this.state = {
       data,
       groupTallies
     };
+
+    this.updateGroupTallies = this.updateGroupTallies.bind(this);
+  }
+
+  // used to allow lower-level components - namely, CriteriaGroup instances - to send data updates back upstream for display
+  updateGroupTallies(id, low, medium, high) {
+    // retrieve the tallies from state and find the group that needs updating
+    let groupTallies = this.state.groupTallies;
+    const idx = groupTallies.findIndex(val => {return val.id === id});
+
+    // update the group's tallies
+    groupTallies[idx] = { id: id, low: low, med: medium, high: high };
+
+    // update the local state
+    this.setState({
+      groupTallies
+    });
   }
 
   render() {
     const groups = this.state.data.map((group, index) => {
       return (
-        <CriteriaGroup title={group.title} criteria={group.criteria} key={index} />
+        <CriteriaGroup title={group.title} updateMasterTallies={this.updateGroupTallies} criteria={group.criteria} key={index} />
       );
     });
 

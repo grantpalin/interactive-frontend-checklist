@@ -20,12 +20,29 @@ class CriteriaGroup extends Component {
       med: levelCounts.med,
       high: levelCounts.high
     };
+
+    this.updateChecksRemaining = this.updateChecksRemaining.bind(this);
+  }
+
+  // receives checkbox updates from individual criteria, and sends updated counts upstream to App.js
+  updateChecksRemaining(criteria, level, isChecked) {
+    // retrieve the counts and update the appropriate one
+    const levels = this.state;
+    levels[level] = this.state[level] + (isChecked === true ? 1 : -1);
+
+    // send the new values upstream
+    this.props.updateMasterTallies(this.props.title, this.state.low, this.state.med, this.state.high);
+
+    // update the local state keeping track of levels for this group
+    this.setState({
+      levels
+    });
   }
 
   render() {
     const criteria = this.props.criteria.map((criterion, index) => {
       return (
-        <Criterion priority={criterion.level} label={criterion.label} text={criterion.description} key={index} />
+        <Criterion priority={criterion.level} label={criterion.label} text={criterion.description} key={index} updateChecksRemaining={this.updateChecksRemaining} />
       );
     });
 
