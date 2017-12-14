@@ -75,9 +75,18 @@ footer a { color: #999; }
   background-color: #bbb;
   color: black;
 }
+.checks-remaining td.checkmark {
+  color: green;
+  line-height: 1;
+}
 
-.checks-remaining tfoot {
+.checks-remaining tfoot th,
+.checks-remaining tfoot td {
   background-color: #222;
   color: white;
   text-align: right;
+}
+
+.checks-remaining tfoot .checkmark {
+  background-color: transparent;
 }

@@ -216,6 +216,7 @@ class App extends Component {
           <td className="medium">{tally.med}</td>
           <td className="low">{tally.low}</td>
           <td className="total">{tally.total}</td>
+          {tally.total === 0 ? <td className="checkmark">&#10003;</td> : null}
         </tr>
       );
     });
@@ -248,6 +249,7 @@ class App extends Component {
                 <td>{footerData.med}</td>
                 <td>{footerData.low}</td>
                 <td>{footerData.total}</td>
+                {footerData.total === 0 ? <td className="checkmark">&#10003;</td> : null}
               </tr>
             </tfoot>
           </table>

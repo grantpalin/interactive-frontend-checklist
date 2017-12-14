@@ -40,6 +40,8 @@ class CriteriaGroup extends Component {
   }
 
   render() {
+    const total = this.state.low + this.state.med + this.state.high;
+
     const criteria = this.props.criteria.map((criterion, index) => {
       return (
         <Criterion priority={criterion.level} label={criterion.label} text={criterion.description} key={index} updateChecksRemaining={this.updateChecksRemaining} />
@@ -53,7 +55,12 @@ class CriteriaGroup extends Component {
           <li className="priority-count high">High: {this.state.high}</li>
           <li className="priority-count medium">Medium: {this.state.med}</li>
           <li className="priority-count low">Low: {this.state.low}</li>
-          <li className="priority-count total">Total: {this.state.high + this.state.med + this.state.low}</li>
+          <li className="priority-count total">Total: {total}</li>
+          {
+            total === 0
+              ? <li className="priority-count checkmark">&#10003;</li>
+              : null
+          }
         </ul>
         {criteria}
       </div>
