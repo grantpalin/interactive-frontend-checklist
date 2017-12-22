@@ -11,6 +11,7 @@
   padding: 20px;
   color: white;
   text-align: center;
+  margin-bottom: 1em;
 }
 
 .app-title {
@@ -26,8 +27,30 @@
   to { transform: rotate(360deg); }
 }
 
+.main-summary {
+  margin: 0 1%;
+}
+
 main {
   margin: 0 1%;
+}
+
+@media screen and (min-width: 75rem) {
+  .app-header {
+    position: sticky;
+    top: 0;
+  }
+  .main-summary {
+    position: fixed;
+    width: 30%;
+  }
+  .checks-remaining {
+    margin: 0 0 0 auto;
+  }
+  main {
+    margin: 0 1% 0 34%;
+    width: 65%;
+  }
 }
 
 footer {
@@ -46,6 +69,8 @@ footer a { color: #999; }
 .checks-remaining caption {
   font-size: 1.5em;
   font-weight: bold;
+  margin-bottom: 0.2em;
+  text-align: left;
 }
 
 .checks-remaining th,
@@ -78,6 +103,8 @@ footer a { color: #999; }
 .checks-remaining td.checkmark {
   color: green;
   line-height: 1;
+  text-align: center;
+  width: 1rem;
 }
 
 .checks-remaining tfoot th,
