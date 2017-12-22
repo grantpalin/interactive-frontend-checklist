@@ -227,7 +227,7 @@ class App extends Component {
           <img src={logo} className="app-logo" alt="logo" />
           <h1 className="app-title">Interactive Front-End Checklist</h1>
         </header>
-        <main>
+        <aside className="main-summary">
           <table className="checks-remaining">
             <caption>Checks Remaining</caption>
             <thead>
@@ -249,11 +249,13 @@ class App extends Component {
                 <td>{footerData.med}</td>
                 <td>{footerData.low}</td>
                 <td>{footerData.total}</td>
-                {footerData.total === 0 ? <td className="checkmark">&#10003;</td> : null}
+                <td className="checkmark">{footerData.total === 0 ? <span>&#10003;</span> : null}</td>
               </tr>
             </tfoot>
           </table>
+        </aside>
 
+        <main>
           {groups}
         </main>
         <footer>

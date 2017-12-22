@@ -1,7 +1,12 @@
 .criteria-group {}
 
+.criteria-group + .criteria-group {
+  margin-top: 2em;
+}
+
 .criteria-group-title {
   border-bottom: 1px solid #bbb;
+  margin-top: 0;
 }
 
 .priority-counts {
