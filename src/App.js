@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import CriteriaGroup from './Components/CriteriaGroup';
 import './App.css';
 
@@ -224,7 +223,6 @@ class App extends Component {
     return (
       <div className="app">
         <header className="app-header">
-          <img src={logo} className="app-logo" alt="logo" />
           <h1 className="app-title">Interactive Front-End Checklist</h1>
         </header>
         <aside className="main-summary">
