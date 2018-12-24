@@ -7,15 +7,92 @@
 .criterion:hover {
   background-color: #eee;
 }
-.criterion label {
-  cursor: pointer;
-  display: inline-block;
-  font-weight: bold;
-  padding: 0.1em;
-}
 .criterion label:hover {
   background-color: #bbb;
 }
 .criterion-overview {
   margin: 0 0 0 3rem;
+}
+
+/*
+Checkbox styles sourced from
+https://kyusuf.com/post/completely-css-custom-checkbox-radio-buttons-and-select-boxes
+*/
+
+.control {
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  padding: 0.2em 0 0.2em 30px;
+  position: relative;
+}
+
+.control input {
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.control__indicator {
+  background: #e6e6e6;
+  border: 1px solid #000;
+  height: 20px;
+  left: 0;
+  position: absolute;
+  top: 2px;
+  width: 20px;
+}
+
+/* Hover and focus states */
+.control:hover input ~ .control__indicator,
+.control input:focus ~ .control__indicator {
+  background: #ccc;
+}
+
+/* Checked state */
+.control input:checked ~ .control__indicator {
+  background: #2aa1c0;
+  border-color: transparent;
+}
+
+/* Hover state whilst checked */
+.control:hover input:not([disabled]):checked ~ .control__indicator,
+.control input:checked:focus ~ .control__indicator {
+  background: #0e647d;
+}
+
+/* Disabled state */
+.control input:disabled ~ .control__indicator {
+  background: #e6e6e6;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+/* Check mark */
+.control__indicator:after {
+  content: '';
+  display: none;
+  position: absolute;
+}
+
+/* Show check mark */
+.control input:checked ~ .control__indicator:after {
+  display: block;
+}
+
+/* Checkbox tick */
+.control--checkbox .control__indicator:after {
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  height: 11px;
+  left: 7px;
+  top: 2px;
+  transform: rotate(45deg);
+  width: 5px;
+}
+
+/* Disabled tick colour */
+.control--checkbox input:disabled ~ .control__indicator:after {
+  border-color: #7b7b7b;
 }

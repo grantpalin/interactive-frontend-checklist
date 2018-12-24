@@ -30,8 +30,9 @@ class Criterion extends Component {
       <div className="criterion">
         <Priority level={this.props.priority} />
         <p className="criterion-overview">
-          <label>
-            <input type="checkbox" checked={this.state.checked} onChange={this.onStatusChange} /> {this.props.label}:
+          <label className="control control--checkbox">{this.props.label}:
+            <input type="checkbox" checked={this.state.checked} onChange={this.onStatusChange} />
+            <div className="control__indicator"></div>
           </label>
           <br />
           {this.props.text}
