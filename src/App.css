@@ -10,10 +10,33 @@
 
 .app-title {
   font-size: 1.5em;
+  margin-top: 0;
+}
+
+.header-detail-toggle {
+  background-color: #bbb;
+  border: none;
+  margin: 0 auto;
+  padding: 8px 15px;
+}
+.header-detail-toggle:hover {
+  background-color: white;
+  cursor: pointer;
+}
+
+.header-detail-toggle[data-header-details-toggle-visible] {
+  display: none;
+}
+.header-detail-toggle[data-header-details-toggle-visible=true] {
+  display: block;
 }
 
 .app-intro {
-  font-size: large;
+  display: none;
+  font-size: 1.1em;
+}
+.app-intro[data-header-details-visible=true] {
+  display: block;
 }
 
 .main-summary {

@@ -168,10 +168,12 @@ class App extends Component {
     // keep both the tallies and the source data in local state
     this.state = {
       data,
-      groupTallies
+      groupTallies,
+      headerDetailsVisible: false
     };
 
     this.updateGroupTallies = this.updateGroupTallies.bind(this);
+    this.toggleHeaderDetailsVisibility = this.toggleHeaderDetailsVisibility.bind(this);
   }
 
   // used to allow lower-level components - namely, CriteriaGroup instances - to send data updates back upstream for display
@@ -187,6 +189,12 @@ class App extends Component {
     this.setState({
       groupTallies
     });
+  }
+
+  toggleHeaderDetailsVisibility() {
+    this.setState({
+      headerDetailsVisible: !this.state.headerDetailsVisible
+    })
   }
 
   render() {
@@ -224,6 +232,12 @@ class App extends Component {
       <div className="app">
         <header className="app-header">
           <h1 className="app-title">Interactive Front-End Checklist</h1>
+          <button className="header-detail-toggle" onClick={this.toggleHeaderDetailsVisibility} data-header-details-toggle-visible={!this.state.headerDetailsVisible}>What's This?</button>
+          <div className="app-intro" data-header-details-visible={this.state.headerDetailsVisible}>
+            <p>Interactive Front-End Checklist (IFEC for short) is an interactive listing of considerations when preparing a website or web application.</p>
+            <p>Checking off items will reduce the count of outstanding items to be reviewed and resolved. Fewer outstanding is better!</p>
+            <button className="header-detail-toggle" onClick={this.toggleHeaderDetailsVisibility}>Close</button>
+          </div>
         </header>
         <aside className="main-summary">
           <table className="checks-remaining">
